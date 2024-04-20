@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.example.parkingapp.R
 import com.example.parkingapp.databinding.FragmentLoginBinding
 
@@ -30,9 +31,14 @@ class LoginFragment : Fragment() {
 
         binding.confirmButton.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_contentActivity)
+            requireActivity().finish()
         }
         binding.signinLink.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_signinFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_signinFragment, null, navOptions {
+                popUpTo(R.id.loginFragment) {
+                    inclusive = true
+                }
+            })
 
         }
     }

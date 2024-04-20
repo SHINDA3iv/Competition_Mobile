@@ -27,4 +27,9 @@ class ChosenPlaceFragment : Fragment() {
         binding.confirmButton.setOnClickListener {
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

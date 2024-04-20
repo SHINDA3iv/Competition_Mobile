@@ -30,7 +30,7 @@ class SelectParkingSpotFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loadData()
+//        loadData()
     }
 
     override fun onCreateView(
