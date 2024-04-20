@@ -3,11 +3,14 @@
 
     <item
         android:id="@+id/fragment_select_parking_spot"
+        android:icon="@drawable/ic_parking_spot"
         android:title="Parking" />
     <item
         android:id="@+id/fragment_chosen_place"
+        android:icon="@drawable/ic_car_placeholder"
         android:title="Place" />
     <item
         android:id="@+id/fragment_change_profile"
+        android:icon="@drawable/ic_person"
         android:title="Profile" />
 </menu>
