@@ -2,4 +2,9 @@
 <resources>
     <color name="backColor">#111111</color>
     <color name="fillsColor">#1C1C1E</color>
+
+    <color name="background">#111111</color>
+    <color name="text">#d9d9d9</color>
+    <color name="btn_selected_parking_spot">#3C77DB</color>
+
 </resources>

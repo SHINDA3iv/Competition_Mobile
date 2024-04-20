@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 class ParkingRepositoryImpl :
     ParkingRepository {
-    private val parkingSpotList = sortedSetOf<ParkingSpotItem>({o1, o2 -> o1.spotId.compareTo(o2.spotId)})
+    private val parkingSpotList = sortedSetOf<ParkingSpotItem>({o1, o2 -> o1.position.compareTo(o2.position)})
     private val levelList = sortedSetOf<LevelItem>({o1, o2 -> o1.id.compareTo(o2.id)})
 
     private fun interceptor() : HttpLoggingInterceptor {
@@ -49,6 +49,7 @@ class ParkingRepositoryImpl :
 
 
     override suspend fun getParkingSpotList(level: Int): List<ParkingSpotItem> {
+        parkingSpotList.clear()
         parkingSpotList.addAll(mainApi.getParkingSpotList(level))
 
         return parkingSpotList.toList()

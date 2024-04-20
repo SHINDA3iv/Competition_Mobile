@@ -42,7 +42,8 @@ class MainViewModel : ViewModel() {
 
     fun getParkingSpotList(level: Int = LEVEL) {
         viewModelScope.launch(Dispatchers.IO) {
-            _parkingSpotList.postValue(getParkingSpotListUseCase(level))
+            val list = getParkingSpotListUseCase(level)
+            _parkingSpotList.postValue(list)
         }
     }
 
