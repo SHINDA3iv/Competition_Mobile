@@ -5,7 +5,7 @@ import com.example.parkingapp.domain.entity.ParkingSpotItem
 
 interface ParkingRepository {
 
-    suspend fun getParkingSpotList(): LiveData<List<ParkingSpotItem>>
+    suspend fun getParkingSpotList(): List<ParkingSpotItem>
 
     suspend fun sendParkingSpot(): ParkingSpotItem
 }

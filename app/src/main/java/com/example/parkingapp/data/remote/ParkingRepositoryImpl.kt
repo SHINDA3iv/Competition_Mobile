@@ -1,6 +1,5 @@
 package com.example.parkingapp.data.remote
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.parkingapp.domain.entity.ParkingSpotItem
 import com.example.parkingapp.domain.repository.ParkingRepository
@@ -12,7 +11,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
-class ParkRepository : ParkingRepository {
+class ParkingRepositoryImpl :
+    ParkingRepository {
     private val parkingSpotLD = MutableLiveData<List<ParkingSpotItem>>()
     private val parkingSpotList = sortedSetOf<ParkingSpotItem>({o1, o2 -> o1.spotId.compareTo(o2.spotId)})
 
@@ -46,20 +46,16 @@ class ParkRepository : ParkingRepository {
     }
 
 
-    override suspend fun getParkingSpotList(): LiveData<List<ParkingSpotItem>> {
+    override suspend fun getParkingSpotList(): List<ParkingSpotItem> {
         parkingSpotList.addAll(mainApi.getParkingList())
-        updateList()
 
-        return parkingSpotLD
+        return parkingSpotList.toList()
     }
 
     override suspend fun sendParkingSpot(): ParkingSpotItem {
         TODO("Not yet implemented")
     }
 
-    private fun updateList() {
-        parkingSpotLD.value = parkingSpotList.toList()
-    }
 
     private companion object {
         const val BASE_URL = "http://192.168.47.225:8081/"

@@ -5,5 +5,5 @@ data class ParkingSpotItem(
     val level: Int,
     val position: Long,
     val isBusy: Boolean,
-    val userId: Long
+//    val userId: Long
 )

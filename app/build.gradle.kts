@@ -75,4 +75,8 @@ dependencies {
     implementation ("com.squareup.moshi:moshi:$versionMoshi")
     implementation ("com.squareup.moshi:moshi-kotlin:$versionMoshi")
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    // Jetpack Navigation - Навигация
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 }
