@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="white">#FFFFFFFF</color>
     <color name="backColor">#F0F0F0</color>
     <color name="fillsColor">#FFFFFF</color>
     <color name="yellow">#FFDD2D</color>
     <color name="black">#000000</color>
     <color name="blue">#3C77DB</color>
     <color name="gray">#C4C4C4</color>
+
+    <color name="background">#F0F0F0</color>
+    <color name="btn_selected_level">#FFDD2D</color>
+    <color name="text">#000</color>
+    <color name="btn_busy_parking_spot">#C4C4C4</color>
 
 </resources>
