@@ -99,7 +99,7 @@
         android:backgroundTint="@color/yellow"
         android:text="Confirm"
         android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:cornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
