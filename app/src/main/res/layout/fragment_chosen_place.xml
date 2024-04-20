@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backColor"
-    tools:context=".presentation.MainActivity">
+    tools:context=".presentation.ChosenPlaceFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbProfile"
@@ -67,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:backgroundTint="@color/yellow"
-                android:text="Confirm"
+                android:text="Освободить"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 app:cornerRadius="15dp" />
