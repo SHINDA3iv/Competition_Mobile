@@ -30,7 +30,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="0dp"
             app:endIconMode="clear_text"
-            app:placeholderText="ex: abc@tinkoff.ru"
+            app:placeholderText="Пример: abc@tinkoff.ru"
             app:startIconDrawable="@drawable/ic_email">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -58,7 +58,7 @@
                 android:id="@+id/eTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:hint="Пароль"
                 android:inputType="text|textPassword"
                 android:paddingStart="48dp"
                 tools:ignore="RtlSymmetry" />
@@ -75,16 +75,16 @@
                 android:id="@+id/rememberMeCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Remember me" />
+                android:text="Запомнить меня" />
 
             <TextView
                 android:id="@+id/signinLink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="178dp"
+                android:layout_marginStart="117dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:text="Sign in"
+                android:text="Регистрация"
                 android:textColor="@color/blue" />
         </LinearLayout>
 
