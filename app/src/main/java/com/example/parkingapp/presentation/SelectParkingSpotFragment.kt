@@ -23,6 +23,7 @@ class SelectParkingSpotFragment : Fragment() {
     }
     private lateinit var adapterLevel: LevelItemAdapter
     private lateinit var adapterParkingSpot: ParkingSpotListAdapter
+    private lateinit var adapterParkingSpotBusy: ParkingSpotBusyListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,9 +59,10 @@ class SelectParkingSpotFragment : Fragment() {
                 adapterLevel.submitList(levelList)
             }
             parkingSpotList.observe(viewLifecycleOwner) {parkingSpotList ->
-                Log.i("MyLog", parkingSpotList.toString())
-
                 adapterParkingSpot.submitList(parkingSpotList.filter { !it.isBusy })
+
+                adapterParkingSpotBusy.parkingSpotBusyList = parkingSpotList.filter { it.isBusy }
+                Log.i("MyLog", adapterParkingSpotBusy.parkingSpotBusyList.toString())
             }
         }
     }
@@ -72,6 +74,9 @@ class SelectParkingSpotFragment : Fragment() {
         adapterParkingSpot = ParkingSpotListAdapter()
         binding.rvListFreeSpot.adapter = adapterParkingSpot
 
+        adapterParkingSpotBusy = ParkingSpotBusyListAdapter()
+        binding.rvListBusySpot.adapter = adapterParkingSpotBusy
+
         setupClickListener()
     }
 
@@ -79,6 +84,9 @@ class SelectParkingSpotFragment : Fragment() {
         adapterLevel.onLevelItemClickListener = {level ->
             mainViewModel.editLevelItem(level)
             mainViewModel.getParkingSpotList(level.level)
+        }
+        adapterParkingSpot.onParkingSpotClickListener = {parkingSpotItemLocal ->
+            mainViewModel.editParkingSpot(parkingSpotItemLocal)
         }
     }
 

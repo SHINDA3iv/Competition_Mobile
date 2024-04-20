@@ -4,12 +4,18 @@ import androidx.recyclerview.widget.DiffUtil
 import com.example.parkingapp.domain.entity.ParkingSpotItem
 import com.example.parkingapp.domain.entity.ParkingSpotItemLocal
 
-class ParkingSpotDiffCallback : DiffUtil.ItemCallback<ParkingSpotItem>() {
-    override fun areItemsTheSame(oldItem: ParkingSpotItem, newItem: ParkingSpotItem): Boolean {
+class ParkingSpotDiffCallback : DiffUtil.ItemCallback<ParkingSpotItemLocal>() {
+    override fun areItemsTheSame(
+        oldItem: ParkingSpotItemLocal,
+        newItem: ParkingSpotItemLocal
+    ): Boolean {
         return oldItem.spotId == newItem.spotId
     }
 
-    override fun areContentsTheSame(oldItem: ParkingSpotItem, newItem: ParkingSpotItem): Boolean {
+    override fun areContentsTheSame(
+        oldItem: ParkingSpotItemLocal,
+        newItem: ParkingSpotItemLocal
+    ): Boolean {
         return oldItem == newItem
     }
 

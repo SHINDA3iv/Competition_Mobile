@@ -3,6 +3,7 @@ package com.example.parkingapp.data.remote
 import androidx.lifecycle.MutableLiveData
 import com.example.parkingapp.domain.entity.LevelItem
 import com.example.parkingapp.domain.entity.ParkingSpotItem
+import com.example.parkingapp.domain.entity.ParkingSpotItemLocal
 import com.example.parkingapp.domain.repository.ParkingRepository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -15,7 +16,7 @@ import java.util.concurrent.TimeUnit
 
 class ParkingRepositoryImpl :
     ParkingRepository {
-    private val parkingSpotList = sortedSetOf<ParkingSpotItem>({o1, o2 -> o1.position.compareTo(o2.position)})
+    private val parkingSpotList = sortedSetOf<ParkingSpotItemLocal>({o1, o2 -> o1.position.compareTo(o2.position)})
     private val levelList = sortedSetOf<LevelItem>({o1, o2 -> o1.id.compareTo(o2.id)})
 
     private fun interceptor() : HttpLoggingInterceptor {
@@ -48,9 +49,16 @@ class ParkingRepositoryImpl :
 
 
 
-    override suspend fun getParkingSpotList(level: Int): List<ParkingSpotItem> {
+    override suspend fun getParkingSpotList(level: Int): List<ParkingSpotItemLocal> {
         parkingSpotList.clear()
-        parkingSpotList.addAll(mainApi.getParkingSpotList(level))
+        val list = mainApi.getParkingSpotList(level).map { ParkingSpotItemLocal(
+            spotId = it.spotId,
+            level = it.level,
+            position = it.position,
+            isBusy = it.isBusy,
+            isSelect = false
+        ) }
+        parkingSpotList.addAll(list)
 
         return parkingSpotList.toList()
     }
@@ -60,8 +68,17 @@ class ParkingRepositoryImpl :
             ?: throw RuntimeException("Element with id $levelItemId not found")
     }
 
+    override fun getParkingSpotItem(parkingSpotId: Long): ParkingSpotItemLocal {
+        return parkingSpotList.find { it.spotId == parkingSpotId }
+            ?: throw throw RuntimeException("Element with id $parkingSpotId not found")
+    }
+
     override fun addLevelItem(levelItem: LevelItem) {
         levelList.add(levelItem)
+    }
+
+    override fun addParkingSpotItem(parkingSpotItemLocal: ParkingSpotItemLocal) {
+        parkingSpotList.add(parkingSpotItemLocal)
     }
 
     override suspend fun getLevelList(): List<LevelItem>  {
@@ -87,7 +104,7 @@ class ParkingRepositoryImpl :
     }
 
     override fun getLevelListLocal() = levelList.toList()
-
+    override fun getParkingSpotListLocal() = parkingSpotList.toList()
     override fun editLevelItem(levelItem: LevelItem) {
         val oldElement = getLevelItem(levelItem.id)
         levelList.remove(oldElement)
@@ -95,10 +112,21 @@ class ParkingRepositoryImpl :
         addLevelItem(levelItem)
     }
 
+    override fun editParkingSpot(parkingSpotItemLocal: ParkingSpotItemLocal) {
+        val oldElement = getParkingSpotItem(parkingSpotItemLocal.spotId)
+        parkingSpotList.remove(oldElement)
+        changeColorParkingSpot()
+        addParkingSpotItem(parkingSpotItemLocal)
+
+    }
+
     private fun changeColorLevel() {
         levelList.map { it.select = false }
     }
 
+    private fun changeColorParkingSpot() {
+        parkingSpotList.map { it.isSelect = false }
+    }
 
 
     private companion object {

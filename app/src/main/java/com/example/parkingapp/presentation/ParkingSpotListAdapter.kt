@@ -8,10 +8,11 @@ import com.example.parkingapp.databinding.ItemBusyParkingSpotBinding
 import com.example.parkingapp.databinding.ItemFreeParkingSpotBinding
 import com.example.parkingapp.databinding.ItemSelectedParkingSpotBinding
 import com.example.parkingapp.domain.entity.ParkingSpotItem
+import com.example.parkingapp.domain.entity.ParkingSpotItemLocal
 import java.lang.RuntimeException
 
-class ParkingSpotListAdapter : ListAdapter<ParkingSpotItem, ParkingSpotViewHolder>(ParkingSpotDiffCallback()) {
-    var onParkingSpotClickListener: ((ParkingSpotItem) -> Unit)? = null
+class ParkingSpotListAdapter : ListAdapter<ParkingSpotItemLocal, ParkingSpotViewHolder>(ParkingSpotDiffCallback()) {
+    var onParkingSpotClickListener: ((ParkingSpotItemLocal) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParkingSpotViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -28,12 +29,16 @@ class ParkingSpotListAdapter : ListAdapter<ParkingSpotItem, ParkingSpotViewHolde
         val item = getItem(position)
 
         holder.bind(item)
+
+        holder.itemView.setOnClickListener {
+            onParkingSpotClickListener?.invoke(item)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
 
-        return if (item.isBusy) {
+        return if (item.isSelect) {
             VIEW_TYPE_SELECTED
         } else {
             VIEW_TYPE_FREE

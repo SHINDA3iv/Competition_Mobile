@@ -5,6 +5,6 @@ data class ParkingSpotItemLocal(
     val level: Int,
     val position: Long,
     val isBusy: Boolean,
-    val isSelect: Boolean
+    var isSelect: Boolean
 //    val userId: Long
 )
