@@ -19,7 +19,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Профиль"
-        app:titleTextColor="@color/text"/>
+        app:titleTextColor="@color/text"
+        app:menu="@menu/toolbar_menu"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"

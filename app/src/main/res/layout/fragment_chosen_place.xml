@@ -19,7 +19,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Место"
-        app:titleTextColor="@color/text"/>
+        app:titleTextColor="@color/text"
+        app:menu="@menu/toolbar_menu"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
