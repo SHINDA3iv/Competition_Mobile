@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.parkingapp.R
+import com.example.parkingapp.data.remote.BookParkingSpot
 import com.example.parkingapp.databinding.FragmentSelectParkingSpotBinding
 import com.example.parkingapp.domain.entity.LevelItem
+import com.example.parkingapp.domain.entity.ParkingSpotItem
 
 
 class SelectParkingSpotFragment : Fragment() {
@@ -20,7 +23,10 @@ class SelectParkingSpotFragment : Fragment() {
     private val mainViewModel by lazy {
         ViewModelProvider(this)[MainViewModel::class.java]
     }
-    private lateinit var adapter: LevelItemAdapter
+    private lateinit var adapterLevel: LevelItemAdapter
+    private lateinit var adapterParkingSpot: ParkingSpotListAdapter
+    private lateinit var adapterParkingSpotBusy: ParkingSpotBusyListAdapter
+    private var parkingSpot: BookParkingSpot? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +47,11 @@ class SelectParkingSpotFragment : Fragment() {
 
         setupRecyclerView()
         observerViewModel()
+
+        binding.btnSelectParkingSpot.setOnClickListener {
+            val dialogFragment = parkingSpot?.let { mess -> CustomDialogFragment.newInstance(mess) }
+            dialogFragment?.show(childFragmentManager, CustomDialogFragment.TAG)
+        }
     }
 
     private fun loadData() {
@@ -53,25 +64,42 @@ class SelectParkingSpotFragment : Fragment() {
     private fun observerViewModel() {
         with(mainViewModel) {
             levelList.observe(viewLifecycleOwner) { levelList ->
-                adapter.submitList(levelList)
+                adapterLevel.submitList(levelList)
             }
             parkingSpotList.observe(viewLifecycleOwner) {parkingSpotList ->
-                Log.i("MyLog", parkingSpotList.toString())
+                adapterParkingSpot.submitList(parkingSpotList.filter { !it.isBusy })
+
+                adapterParkingSpotBusy.parkingSpotBusyList = parkingSpotList.filter { it.isBusy }
             }
         }
     }
 
     private fun setupRecyclerView() {
-        adapter = LevelItemAdapter()
-        binding.rvLevel.adapter = adapter
+        adapterLevel = LevelItemAdapter()
+        binding.rvLevel.adapter = adapterLevel
+
+        adapterParkingSpot = ParkingSpotListAdapter()
+        binding.rvListFreeSpot.adapter = adapterParkingSpot
+
+        adapterParkingSpotBusy = ParkingSpotBusyListAdapter()
+        binding.rvListBusySpot.adapter = adapterParkingSpotBusy
 
         setupClickListener()
     }
 
     private fun setupClickListener() {
-        adapter.onLevelItemClickListener = {level ->
+        adapterLevel.onLevelItemClickListener = {level ->
             mainViewModel.editLevelItem(level)
             mainViewModel.getParkingSpotList(level.level)
+        }
+        adapterParkingSpot.onParkingSpotClickListener = {parkingSpotItemLocal ->
+            mainViewModel.editParkingSpot(parkingSpotItemLocal)
+            parkingSpot = BookParkingSpot(
+                level = parkingSpotItemLocal.level,
+                position = parkingSpotItemLocal.position.toInt(),
+                isBusy = true,
+                1
+            )
         }
     }
 

@@ -4,13 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.parkingapp.data.remote.BookParkingSpot
 import com.example.parkingapp.data.remote.ParkingRepositoryImpl
 import com.example.parkingapp.domain.entity.LevelItem
-import com.example.parkingapp.domain.entity.ParkingSpotItem
+import com.example.parkingapp.domain.entity.ParkingSpotItemLocal
 import com.example.parkingapp.domain.usecase.EditLevelItemUseCase
-import com.example.parkingapp.domain.usecase.GetLevelItemUseCase
+import com.example.parkingapp.domain.usecase.EditParkingSpotUseCase
 import com.example.parkingapp.domain.usecase.GetLevelListLocalUseCase
 import com.example.parkingapp.domain.usecase.GetLevelListUseCase
+import com.example.parkingapp.domain.usecase.GetParkingSpotListLocalUseCase
 import com.example.parkingapp.domain.usecase.GetParkingSpotListUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,11 +23,13 @@ class MainViewModel : ViewModel() {
     private val getLevelListUseCase = GetLevelListUseCase(repository)
     private val getParkingSpotListUseCase = GetParkingSpotListUseCase(repository)
     private val getLevelListLocalUseCase = GetLevelListLocalUseCase(repository)
+    private val getParkingSpotListLocalUseCase = GetParkingSpotListLocalUseCase(repository)
     private val editLevelItemUseCase = EditLevelItemUseCase(repository)
+    private val editParkingSpotUseCase = EditParkingSpotUseCase(repository)
 
 
-    private var _parkingSpotList = MutableLiveData<List<ParkingSpotItem>>()
-    val parkingSpotList: LiveData<List<ParkingSpotItem>>
+    private var _parkingSpotList = MutableLiveData<List<ParkingSpotItemLocal>>()
+    val parkingSpotList: LiveData<List<ParkingSpotItemLocal>>
         get() = _parkingSpotList
 
     private val _levelList = MutableLiveData<List<LevelItem>>()
@@ -50,6 +54,19 @@ class MainViewModel : ViewModel() {
         val newItem = levelItem.copy(select = !levelItem.select)
         editLevelItemUseCase(newItem)
         _levelList.value = getLevelListLocalUseCase()
+    }
+
+    fun editParkingSpot(parkingSpotItemLocal: ParkingSpotItemLocal) {
+        val newItem = parkingSpotItemLocal.copy(isSelect = !parkingSpotItemLocal.isSelect)
+        editParkingSpotUseCase(newItem)
+        _parkingSpotList.value = getParkingSpotListLocalUseCase()
+    }
+
+    fun bookParkingSpot(body: BookParkingSpot) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            repository.sendBookParkingSpot(body)
+        }
     }
 
     private companion object {
