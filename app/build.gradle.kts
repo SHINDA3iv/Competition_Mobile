@@ -33,9 +33,17 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
+    val versionRetrofit = "2.9.0"
+    val versionOkHttp = "4.7.2"
+    val versionLifecycle = "2.7.0"
+    val versionCoroutines = "1.7.1"
+    val versionMoshi = "1.13.0"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -45,4 +53,26 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // viewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$versionLifecycle")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$versionLifecycle")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$versionLifecycle")
+
+    //Retrofit - Работа с сетью
+    implementation("com.squareup.retrofit2:retrofit:$versionRetrofit")
+    implementation("com.squareup.retrofit2:retrofit-mock:$versionRetrofit")
+    implementation("com.squareup.retrofit2:converter-gson:$versionRetrofit")
+    implementation("com.squareup.okhttp3:okhttp:$versionOkHttp")
+    implementation("com.squareup.okhttp3:logging-interceptor:$versionOkHttp")
+
+    //Coroutines - Асинхронное программирование
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$versionCoroutines")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$versionCoroutines")
+
+    // Moshi - Обработка json
+    implementation ("com.squareup.moshi:moshi:$versionMoshi")
+    implementation ("com.squareup.moshi:moshi-kotlin:$versionMoshi")
+    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
 }
