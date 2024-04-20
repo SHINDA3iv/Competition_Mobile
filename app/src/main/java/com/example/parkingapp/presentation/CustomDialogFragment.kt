@@ -8,7 +8,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.parkingapp.R
 import com.example.parkingapp.data.remote.BookParkingSpot
+import com.example.parkingapp.data.remote.MainApi
 import com.example.parkingapp.databinding.FragmentCustomDialogBinding
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class CustomDialogFragment : DialogFragment() {
     private var _binding: FragmentCustomDialogBinding? = null
@@ -39,7 +42,8 @@ class CustomDialogFragment : DialogFragment() {
         }
         binding.submitButton.setOnClickListener {
 
-            parkingSpot?.let { body -> viewModel.bookParkingSpot(body) }
+
+
             dismiss()
         }
 

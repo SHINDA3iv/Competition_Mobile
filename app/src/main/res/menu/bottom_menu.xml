@@ -6,8 +6,10 @@
         android:title="Парковка" />
     <item
         android:id="@+id/fragment_chosen_place"
-        android:title="Место" />
+        android:title="Место"
+        android:icon="@drawable/icon_parking"/>
     <item
         android:id="@+id/fragment_change_profile"
-        android:title="Профиль" />
+        android:title="Профиль"
+        android:icon="@drawable/ic_person"/>
 </menu>

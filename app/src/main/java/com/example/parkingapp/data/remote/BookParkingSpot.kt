@@ -1,5 +1,6 @@
 package com.example.parkingapp.data.remote
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class BookParkingSpot(

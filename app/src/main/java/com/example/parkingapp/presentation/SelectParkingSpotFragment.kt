@@ -49,8 +49,7 @@ class SelectParkingSpotFragment : Fragment() {
         observerViewModel()
 
         binding.btnSelectParkingSpot.setOnClickListener {
-            val dialogFragment = parkingSpot?.let { mess -> CustomDialogFragment.newInstance(mess) }
-            dialogFragment?.show(childFragmentManager, CustomDialogFragment.TAG)
+            mainViewModel.bookParkingSpot(parkingSpot!!)
         }
     }
 
@@ -71,6 +70,7 @@ class SelectParkingSpotFragment : Fragment() {
 
                 adapterParkingSpotBusy.parkingSpotBusyList = parkingSpotList.filter { it.isBusy }
             }
+
         }
     }
 

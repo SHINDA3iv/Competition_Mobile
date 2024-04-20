@@ -36,6 +36,9 @@ class MainViewModel : ViewModel() {
     val levelList: LiveData<List<LevelItem>>
         get() = _levelList
 
+    private val _request = MutableLiveData<String>()
+    val request: LiveData<String>
+        get() = _request
 
 
     fun getLevelList() {
@@ -63,9 +66,9 @@ class MainViewModel : ViewModel() {
     }
 
     fun bookParkingSpot(body: BookParkingSpot) {
-        viewModelScope.launch(Dispatchers.IO) {
-
+        viewModelScope.launch {
             repository.sendBookParkingSpot(body)
+            _parkingSpotList.postValue(getParkingSpotListUseCase(body.level))
         }
     }
 

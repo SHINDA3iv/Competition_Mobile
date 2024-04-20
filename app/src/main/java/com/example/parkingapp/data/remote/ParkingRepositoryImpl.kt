@@ -8,6 +8,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
@@ -38,7 +39,7 @@ class ParkingRepositoryImpl :
     private val retrofit = Retrofit.Builder()
         .client(provideOkHttpClientWithProgress())
         .baseUrl(BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     private val mainApi by lazy {
@@ -131,7 +132,7 @@ class ParkingRepositoryImpl :
     }
 
     private companion object {
-        const val BASE_URL = "http://192.168.74.225:8081/"
+        const val BASE_URL = "http://192.168.47.225:8081/"
         const val KEY_LEVEL = "max_level"
         const val KEY_BOOK = "message"
         const val CONNECT_TIMEOUT = 10L
