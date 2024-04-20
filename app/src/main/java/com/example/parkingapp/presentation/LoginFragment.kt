@@ -1,10 +1,13 @@
 package com.example.parkingapp.presentation
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.example.parkingapp.R
@@ -15,6 +18,9 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding
         get() = _binding!!
+    private val viewModelValidation by lazy {
+        ViewModelProvider(this)[CorrectValidationViewModel::class.java]
+    }
 
 
     override fun onCreateView(
@@ -29,18 +35,81 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        addTextChangeListeners()
+        observerViewModel()
+
         binding.confirmButton.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_contentActivity)
-            requireActivity().finish()
+            login()
         }
         binding.signinLink.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_signinFragment, null, navOptions {
-                popUpTo(R.id.loginFragment) {
-                    inclusive = true
-                }
-            })
+            findNavController().navigate(
+                R.id.action_loginFragment_to_signinFragment,
+                null,
+                navOptions {
+                    popUpTo(R.id.loginFragment) {
+                        inclusive = true
+                    }
+                })
 
         }
     }
+
+    private fun login() {
+        val validate = viewModelValidation.validateInput(
+            binding.eTextMail.text.toString(),
+            binding.eTextPassword.text.toString()
+        )
+
+        if (validate) {
+            findNavController().navigate(R.id.action_loginFragment_to_contentActivity)
+            requireActivity().finish()
+        }
+    }
+
+    private fun observerViewModel() {
+        viewModelValidation.errorInputEmail.observe(viewLifecycleOwner) {
+            val message = if (it) {
+                "Неправильный email"
+            } else {
+                null
+            }
+            binding.layoutMail.error = message
+        }
+        viewModelValidation.errorInputPassword.observe(viewLifecycleOwner) {
+            val message = if (it) {
+                "Неправильный пароль"
+            } else {
+                null
+            }
+            binding.layoutPassword.error = message
+        }
+    }
+
+
+    private fun addTextChangeListeners() {
+        binding.eTextMail.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewModelValidation.resetErrorInputEmail()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
+        binding.eTextPassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewModelValidation.resetErrorInputPassword()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
+    }
+
 
 }
