@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/fragment_select_parking_spot"
+        android:title="Parking" />
+    <item
+        android:id="@+id/fragment_chosen_place"
+        android:title="Place" />
+    <item
+        android:id="@+id/fragment_change_profile"
+        android:title="Profile" />
+</menu>
