@@ -1,6 +1,7 @@
 package com.example.parkingapp.data.remote
 
 import androidx.lifecycle.MutableLiveData
+import com.example.parkingapp.domain.entity.LevelItem
 import com.example.parkingapp.domain.entity.ParkingSpotItem
 import com.example.parkingapp.domain.repository.ParkingRepository
 import com.squareup.moshi.Moshi
@@ -9,13 +10,13 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
 
 class ParkingRepositoryImpl :
     ParkingRepository {
-    private val parkingSpotLD = MutableLiveData<List<ParkingSpotItem>>()
     private val parkingSpotList = sortedSetOf<ParkingSpotItem>({o1, o2 -> o1.spotId.compareTo(o2.spotId)})
-
+    private val levelList = sortedSetOf<LevelItem>({o1, o2 -> o1.id.compareTo(o2.id)})
 
     private fun interceptor() : HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor()
@@ -52,6 +53,28 @@ class ParkingRepositoryImpl :
         return parkingSpotList.toList()
     }
 
+    override suspend fun getLevelList(): List<LevelItem>  {
+        val numLevel = mainApi.getCountLevel()[KEY_LEVEL] ?: throw RuntimeException("Can't find value by $KEY_LEVEL")
+
+        for (i in 0..<numLevel) {
+            if (i == 0) {
+                levelList.add(LevelItem(
+                    i,
+                    i + 1,
+                    true
+                ))
+            } else {
+                levelList.add(LevelItem(
+                    i,
+                    i + 1,
+                    false
+                ))
+            }
+        }
+
+        return levelList.toList()
+    }
+
     override suspend fun sendParkingSpot(): ParkingSpotItem {
         TODO("Not yet implemented")
     }
@@ -59,6 +82,7 @@ class ParkingRepositoryImpl :
 
     private companion object {
         const val BASE_URL = "http://192.168.47.225:8081/"
+        const val KEY_LEVEL = "max_level"
         const val CONNECT_TIMEOUT = 10L
         const val WRITE_TIMEOUT = 10L
         const val READ_TIMEOUT = 10L
