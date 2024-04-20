@@ -1,6 +1,5 @@
 package com.example.parkingapp.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,11 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.parkingapp.data.remote.BookParkingSpot
 import com.example.parkingapp.data.remote.ParkingRepositoryImpl
 import com.example.parkingapp.domain.entity.LevelItem
-import com.example.parkingapp.domain.entity.ParkingSpotItem
 import com.example.parkingapp.domain.entity.ParkingSpotItemLocal
 import com.example.parkingapp.domain.usecase.EditLevelItemUseCase
 import com.example.parkingapp.domain.usecase.EditParkingSpotUseCase
-import com.example.parkingapp.domain.usecase.GetLevelItemUseCase
 import com.example.parkingapp.domain.usecase.GetLevelListLocalUseCase
 import com.example.parkingapp.domain.usecase.GetLevelListUseCase
 import com.example.parkingapp.domain.usecase.GetParkingSpotListLocalUseCase
@@ -67,7 +64,7 @@ class MainViewModel : ViewModel() {
 
     fun bookParkingSpot(body: BookParkingSpot) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.i("MyLog", "123")
+
             repository.sendBookParkingSpot(body)
         }
     }

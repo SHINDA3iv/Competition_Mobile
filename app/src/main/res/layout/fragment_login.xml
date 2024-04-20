@@ -84,7 +84,8 @@
                 android:layout_marginStart="178dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:text="Sign in" />
+                android:text="Sign in"
+                android:textColor="@color/blue" />
         </LinearLayout>
 
     </LinearLayout>
@@ -97,7 +98,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:backgroundTint="@color/yellow"
-        android:text="Confirm"
+        android:text="Потвердить"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:cornerRadius="15dp"

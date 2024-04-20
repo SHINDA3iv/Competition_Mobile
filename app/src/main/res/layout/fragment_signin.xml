@@ -147,7 +147,8 @@
                 android:layout_marginStart="182dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:text="Log in" />
+                android:text="Log in"
+                android:textColor="@color/blue" />
         </LinearLayout>
 
     </LinearLayout>
@@ -156,11 +157,11 @@
         android:id="@+id/confirmButton"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:backgroundTint="@color/yellow"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
-        android:text="Confirm"
+        android:backgroundTint="@color/yellow"
+        android:text="Потвердить"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:cornerRadius="15dp"

@@ -4,8 +4,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.parkingapp.R
@@ -37,11 +35,11 @@ class CustomDialogFragment : DialogFragment() {
 
         // Настройка слушателей для кнопок Cancel и Submit
         binding.cancelButton.setOnClickListener {
-            parkingSpot?.let { body -> viewModel.bookParkingSpot(body) }
             dismiss()
         }
         binding.submitButton.setOnClickListener {
 
+            parkingSpot?.let { body -> viewModel.bookParkingSpot(body) }
             dismiss()
         }
 

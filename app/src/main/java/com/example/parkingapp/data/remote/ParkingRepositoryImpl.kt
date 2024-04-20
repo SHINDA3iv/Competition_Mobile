@@ -1,8 +1,6 @@
 package com.example.parkingapp.data.remote
 
-import androidx.lifecycle.MutableLiveData
 import com.example.parkingapp.domain.entity.LevelItem
-import com.example.parkingapp.domain.entity.ParkingSpotItem
 import com.example.parkingapp.domain.entity.ParkingSpotItemLocal
 import com.example.parkingapp.domain.repository.ParkingRepository
 import com.squareup.moshi.Moshi
@@ -129,12 +127,13 @@ class ParkingRepositoryImpl :
     }
 
     suspend fun sendBookParkingSpot(body: BookParkingSpot): String {
-        return mainApi.bookParkingSpot(body)["message"]!!
+        return mainApi.bookParkingSpot(body)[KEY_BOOK]!!
     }
 
     private companion object {
-        const val BASE_URL = "http://192.168.47.225:8081/"
+        const val BASE_URL = "http://192.168.74.225:8081/"
         const val KEY_LEVEL = "max_level"
+        const val KEY_BOOK = "message"
         const val CONNECT_TIMEOUT = 10L
         const val WRITE_TIMEOUT = 10L
         const val READ_TIMEOUT = 10L

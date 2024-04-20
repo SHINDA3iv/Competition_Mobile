@@ -3,11 +3,11 @@
 
     <item
         android:id="@+id/fragment_select_parking_spot"
-        android:title="Parking" />
+        android:title="Парковка" />
     <item
         android:id="@+id/fragment_chosen_place"
-        android:title="Place" />
+        android:title="Место" />
     <item
         android:id="@+id/fragment_change_profile"
-        android:title="Profile" />
+        android:title="Профиль" />
 </menu>
