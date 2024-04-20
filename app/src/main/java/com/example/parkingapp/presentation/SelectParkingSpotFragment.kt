@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.parkingapp.R
+import com.example.parkingapp.data.remote.BookParkingSpot
 import com.example.parkingapp.databinding.FragmentSelectParkingSpotBinding
 import com.example.parkingapp.domain.entity.LevelItem
 import com.example.parkingapp.domain.entity.ParkingSpotItem
@@ -24,6 +25,7 @@ class SelectParkingSpotFragment : Fragment() {
     private lateinit var adapterLevel: LevelItemAdapter
     private lateinit var adapterParkingSpot: ParkingSpotListAdapter
     private lateinit var adapterParkingSpotBusy: ParkingSpotBusyListAdapter
+    private var parkingSpot: BookParkingSpot? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +46,11 @@ class SelectParkingSpotFragment : Fragment() {
 
         setupRecyclerView()
         observerViewModel()
+
+        binding.btnSelectParkingSpot.setOnClickListener {
+            val dialogFragment = parkingSpot?.let { mess -> CustomDialogFragment.newInstance(mess) }
+            dialogFragment?.show(childFragmentManager, CustomDialogFragment.TAG)
+        }
     }
 
     private fun loadData() {
@@ -62,7 +69,6 @@ class SelectParkingSpotFragment : Fragment() {
                 adapterParkingSpot.submitList(parkingSpotList.filter { !it.isBusy })
 
                 adapterParkingSpotBusy.parkingSpotBusyList = parkingSpotList.filter { it.isBusy }
-                Log.i("MyLog", adapterParkingSpotBusy.parkingSpotBusyList.toString())
             }
         }
     }
@@ -87,6 +93,12 @@ class SelectParkingSpotFragment : Fragment() {
         }
         adapterParkingSpot.onParkingSpotClickListener = {parkingSpotItemLocal ->
             mainViewModel.editParkingSpot(parkingSpotItemLocal)
+            parkingSpot = BookParkingSpot(
+                level = parkingSpotItemLocal.level,
+                position = parkingSpotItemLocal.position.toInt(),
+                isBusy = true,
+                1
+            )
         }
     }
 

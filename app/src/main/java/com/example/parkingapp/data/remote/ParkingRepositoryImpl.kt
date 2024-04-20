@@ -128,6 +128,9 @@ class ParkingRepositoryImpl :
         parkingSpotList.map { it.isSelect = false }
     }
 
+    suspend fun sendBookParkingSpot(body: BookParkingSpot): String {
+        return mainApi.bookParkingSpot(body)["message"]!!
+    }
 
     private companion object {
         const val BASE_URL = "http://192.168.47.225:8081/"

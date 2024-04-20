@@ -1,9 +1,11 @@
 package com.example.parkingapp.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.parkingapp.data.remote.BookParkingSpot
 import com.example.parkingapp.data.remote.ParkingRepositoryImpl
 import com.example.parkingapp.domain.entity.LevelItem
 import com.example.parkingapp.domain.entity.ParkingSpotItem
@@ -61,6 +63,13 @@ class MainViewModel : ViewModel() {
         val newItem = parkingSpotItemLocal.copy(isSelect = !parkingSpotItemLocal.isSelect)
         editParkingSpotUseCase(newItem)
         _parkingSpotList.value = getParkingSpotListLocalUseCase()
+    }
+
+    fun bookParkingSpot(body: BookParkingSpot) {
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.i("MyLog", "123")
+            repository.sendBookParkingSpot(body)
+        }
     }
 
     private companion object {
