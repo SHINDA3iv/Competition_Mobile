@@ -9,19 +9,6 @@
     tools:context=".presentation.SelectParkingSpotFragment">
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tbSelectParkingPost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/parking_spots"
-        app:titleTextColor="@color/text"
-        app:menu="@menu/toolbar_menu"/>
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -31,7 +18,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbSelectParkingPost">
+        app:layout_constraintTop_toBottomOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvLevel"

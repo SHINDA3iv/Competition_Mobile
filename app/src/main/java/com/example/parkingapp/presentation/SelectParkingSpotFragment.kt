@@ -88,11 +88,6 @@ class SelectParkingSpotFragment : Fragment() {
             }
 
         }
-        binding.tbSelectParkingPost.setOnMenuItemClickListener {
-            if (it.itemId == R.id.complain) findNavController().navigate(R.id.action_selectParkingSpotFragment_to_complainFragment)
-
-            true
-        }
     }
 
     override fun onDestroy() {

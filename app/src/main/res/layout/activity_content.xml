@@ -11,6 +11,19 @@
     app:defaultNavHost="true"
     android:orientation="vertical">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/text"
+        app:menu="@menu/toolbar_menu"/>
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/content_container"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -20,7 +33,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bnvContent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbProfile"
         app:navGraph="@navigation/content_navigation"
         tools:context=".presentation.ContentActivity" />
 
