@@ -51,11 +51,6 @@ class ChosenPlaceFragment : Fragment() {
             binding.contentDataSpot.visibility = View.INVISIBLE
         }
 
-        binding.tbProfile.setOnMenuItemClickListener{
-            if (it.itemId == R.id.complain) findNavController().navigate(R.id.action_chosenPlaceFragment_to_complainFragment)
-
-            true
-        }
 
     }
 

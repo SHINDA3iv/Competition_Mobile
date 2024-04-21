@@ -29,10 +29,6 @@ class ChangeProfileFragment : Fragment() {
         binding.confirmButton.setOnClickListener {
         }
 
-        binding.tbProfile.setOnMenuItemClickListener{
-
-            true
-        }
     }
 
 }
