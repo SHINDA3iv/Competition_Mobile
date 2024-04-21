@@ -85,7 +85,8 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:text="Регистрация"
-                android:textColor="@color/blue" />
+                android:textColor="@color/blue"
+                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>

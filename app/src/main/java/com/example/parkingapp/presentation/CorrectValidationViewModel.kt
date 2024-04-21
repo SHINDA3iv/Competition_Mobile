@@ -21,7 +21,7 @@ class CorrectValidationViewModel : ViewModel() {
     fun validateInput(email: String, password: String): Boolean {
         var result = true
 
-        if (email.isBlank() || !email.contains("@")) {
+        if (email.isBlank()) {
             _errorInputEmail.value = true
             result = false
         }

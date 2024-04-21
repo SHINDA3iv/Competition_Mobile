@@ -4,4 +4,6 @@
     <string name="free_spots">Свободные места</string>
     <string name="busty_spots">Занятые места</string>
     <string name="select">Выбрать</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

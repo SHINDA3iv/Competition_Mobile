@@ -1,5 +1,6 @@
 package com.example.parkingapp.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -66,9 +67,19 @@ class MainViewModel : ViewModel() {
     }
 
     fun bookParkingSpot(body: BookParkingSpot) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.sendBookParkingSpot(body)
             _parkingSpotList.postValue(getParkingSpotListUseCase(body.level))
+        }
+    }
+
+
+    private val _exit = MutableLiveData<String>()
+    val exit: LiveData<String>
+        get() = _exit
+    fun addComplain(text: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _exit.postValue(repository.addComplain(text))
         }
     }
 

@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.parkingapp.R
 import com.example.parkingapp.databinding.FragmentChangeProfileBinding
 
 class ChangeProfileFragment : Fragment() {
@@ -25,6 +27,11 @@ class ChangeProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.confirmButton.setOnClickListener {
+        }
+
+        binding.tbProfile.setOnMenuItemClickListener{
+
+            true
         }
     }
 

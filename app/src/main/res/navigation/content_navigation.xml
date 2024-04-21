@@ -9,5 +9,28 @@
         android:id="@+id/selectParkingSpotFragment"
         android:name="com.example.parkingapp.presentation.SelectParkingSpotFragment"
         android:label="fragment_select_parking_spot"
-        tools:layout="@layout/fragment_select_parking_spot" />
+        tools:layout="@layout/fragment_select_parking_spot" >
+        <action
+            android:id="@+id/action_selectParkingSpotFragment_to_complainFragment"
+            app:destination="@id/complainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chosenPlaceFragment"
+        android:name="com.example.parkingapp.presentation.ChosenPlaceFragment"
+        android:label="fragment_chosen_place"
+        tools:layout="@layout/fragment_chosen_place" >
+        <action
+            android:id="@+id/action_chosenPlaceFragment_to_complainFragment"
+            app:destination="@id/complainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeProfileFragment"
+        android:name="com.example.parkingapp.presentation.ChangeProfileFragment"
+        android:label="fragment_change_profile"
+        tools:layout="@layout/fragment_change_profile" />
+    <fragment
+        android:id="@+id/complainFragment"
+        android:name="com.example.parkingapp.presentation.ComplainFragment"
+        android:label="fragment_complain"
+        tools:layout="@layout/fragment_complain" />
 </navigation>

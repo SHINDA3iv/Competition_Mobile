@@ -5,6 +5,7 @@ import com.example.parkingapp.domain.entity.ParkingSpotItemLocal
 import com.example.parkingapp.domain.repository.ParkingRepository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -23,6 +24,7 @@ class ParkingRepositoryImpl :
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         return interceptor
     }
+
 
     private fun provideOkHttpClientWithProgress(): OkHttpClient =
         OkHttpClient().newBuilder()
@@ -50,7 +52,7 @@ class ParkingRepositoryImpl :
 
     override suspend fun getParkingSpotList(level: Int): List<ParkingSpotItemLocal> {
         parkingSpotList.clear()
-        val list = mainApi.getParkingSpotList(level).map { ParkingSpotItemLocal(
+        val list = mainApi.getParkingSpotList(UserImpl.token, level).map { ParkingSpotItemLocal(
             spotId = it.spotId,
             level = it.level,
             position = it.position,
@@ -81,7 +83,7 @@ class ParkingRepositoryImpl :
     }
 
     override suspend fun getLevelList(): List<LevelItem>  {
-        val numLevel = mainApi.getCountLevel()[KEY_LEVEL] ?: throw RuntimeException("Can't find value by $KEY_LEVEL")
+        val numLevel = mainApi.getCountLevel(UserImpl.token)[KEY_LEVEL] ?: throw RuntimeException("Can't find value by $KEY_LEVEL")
 
         for (i in 0..<numLevel) {
             if (i == 0) {
@@ -131,10 +133,23 @@ class ParkingRepositoryImpl :
         return mainApi.bookParkingSpot(body)[KEY_BOOK]!!
     }
 
+    suspend fun loginUser(user: User): String {
+        return try {
+            mainApi.loginUser(user)[KEY_TOKEN]!!
+        } catch (ex: Exception) {
+            ""
+        }
+    }
+
+    suspend fun addComplain(text: String): String {
+        return mainApi.addComplain(Complain(text))["text"]!!
+    }
+
     private companion object {
         const val BASE_URL = "http://192.168.47.225:8081/"
         const val KEY_LEVEL = "max_level"
         const val KEY_BOOK = "message"
+        const val KEY_TOKEN = "token"
         const val CONNECT_TIMEOUT = 10L
         const val WRITE_TIMEOUT = 10L
         const val READ_TIMEOUT = 10L

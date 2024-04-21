@@ -3,6 +3,7 @@ package com.example.parkingapp.presentation
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.example.parkingapp.R
+import com.example.parkingapp.data.remote.UserImpl
 import com.example.parkingapp.databinding.FragmentLoginBinding
 
 
@@ -20,6 +22,9 @@ class LoginFragment : Fragment() {
         get() = _binding!!
     private val viewModelValidation by lazy {
         ViewModelProvider(this)[CorrectValidationViewModel::class.java]
+    }
+    private val loginViewModel by lazy {
+        ViewModelProvider(this)[LoginViewModel::class.java]
     }
 
 
@@ -39,7 +44,7 @@ class LoginFragment : Fragment() {
         observerViewModel()
 
         binding.confirmButton.setOnClickListener {
-            login()
+            validateLogin()
         }
         binding.signinLink.setOnClickListener {
             findNavController().navigate(
@@ -54,15 +59,29 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun login() {
+    private fun validateLogin() {
         val validate = viewModelValidation.validateInput(
             binding.eTextMail.text.toString(),
             binding.eTextPassword.text.toString()
         )
 
         if (validate) {
-            findNavController().navigate(R.id.action_loginFragment_to_contentActivity)
-            requireActivity().finish()
+            with(binding) {
+
+                loginViewModel.login(eTextMail.text.toString(), eTextPassword.text.toString())
+
+
+                loginViewModel.token.observe(viewLifecycleOwner) {
+                    if (it != "") {
+                        findNavController().navigate(R.id.action_loginFragment_to_contentActivity)
+                        requireActivity().finish()
+                    } else {
+                        binding.layoutMail.error = "Неправльная почта"
+                        binding.layoutPassword.error = "Неправильный пароль"
+                    }
+                }
+
+            }
         }
     }
 
@@ -82,6 +101,12 @@ class LoginFragment : Fragment() {
                 null
             }
             binding.layoutPassword.error = message
+        }
+        loginViewModel.token.observe(viewLifecycleOwner) {
+            UserImpl.token = it
+
+            findNavController().navigate(R.id.action_loginFragment_to_contentActivity)
+            requireActivity().finish()
         }
     }
 
