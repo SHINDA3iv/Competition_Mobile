@@ -71,18 +71,15 @@ class LoginFragment : Fragment() {
                 loginViewModel.login(eTextMail.text.toString(), eTextPassword.text.toString())
 
 
-                loginViewModel.token.observe(viewLifecycleOwner) {
-                    if (it != "") {
-                        findNavController().navigate(R.id.action_loginFragment_to_contentActivity)
-                        requireActivity().finish()
-                    } else {
-                        binding.layoutMail.error = "Неправльная почта"
-                        binding.layoutPassword.error = "Неправильный пароль"
-                    }
-                }
+
 
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("MyLog", "onDestroy")
     }
 
     private fun observerViewModel() {
@@ -103,10 +100,13 @@ class LoginFragment : Fragment() {
             binding.layoutPassword.error = message
         }
         loginViewModel.token.observe(viewLifecycleOwner) {
-            UserImpl.token = it
-
-            findNavController().navigate(R.id.action_loginFragment_to_contentActivity)
-            requireActivity().finish()
+            if (it != "") {
+                findNavController().navigate(R.id.action_loginFragment_to_contentActivity)
+                requireActivity().finish()
+            } else {
+                binding.layoutMail.error = "Неправльная почта"
+                binding.layoutPassword.error = "Неправильный пароль"
+            }
         }
     }
 

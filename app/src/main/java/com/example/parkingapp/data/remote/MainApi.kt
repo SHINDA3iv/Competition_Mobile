@@ -1,6 +1,7 @@
 package com.example.parkingapp.data.remote
 
 import com.example.parkingapp.domain.entity.ParkingSpotItem
+import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -23,7 +24,7 @@ interface MainApi {
     suspend fun bookParkingSpot(@Body bookParkingSpot: BookParkingSpot): Map<String, String>
 
     @POST("auth/sign-in")
-    suspend fun loginUser(@Body user: User): Map<String, String>
+    fun loginUser(@Body user: User): Call<TokenResponse>
 
     @POST("api/complains/add")
     suspend fun addComplain(@Body complain: Complain): Map<String, String>

@@ -13,6 +13,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class ParkingRepositoryImpl :
     ParkingRepository {
@@ -38,8 +43,14 @@ class ParkingRepositoryImpl :
         .add(KotlinJsonAdapterFactory())
         .build()
 
+    val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor(HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY // Уровень подробного журнала
+        })
+        .build()
+
     private val retrofit = Retrofit.Builder()
-        .client(provideOkHttpClientWithProgress())
+        .client(okHttpClient)
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
@@ -134,10 +145,21 @@ class ParkingRepositoryImpl :
     }
 
     suspend fun loginUser(user: User): String {
-        return try {
-            mainApi.loginUser(user)[KEY_TOKEN]!!
-        } catch (ex: Exception) {
-            ""
+        return suspendCoroutine { continuation ->
+            mainApi.loginUser(user).enqueue(object : Callback<TokenResponse> {
+                override fun onResponse(call: Call<TokenResponse>, response: Response<TokenResponse>) {
+                    if (response.isSuccessful) {
+                        val token = response.body()?.token ?: ""
+                        continuation.resume(token)
+                    } else {
+                        continuation.resume("")
+                    }
+                }
+
+                override fun onFailure(call: Call<TokenResponse>, t: Throwable) {
+                    continuation.resume("")
+                }
+            })
         }
     }
 
